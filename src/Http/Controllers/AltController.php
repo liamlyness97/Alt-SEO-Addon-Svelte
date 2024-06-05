@@ -38,13 +38,13 @@ class AltController
     public function svelte()
     {
         $data = new Data('settings');
-        $seo = new AltSeo();
 
         $blueprint = $data->getBlueprint(true);
         $fields = $blueprint->fields()->addValues($data->all())->preProcess();
 
         return response()->json([
             'values'    => $fields->values(),
+            'canonical' => ENV('APP_URL')
         ]);
     }
 
