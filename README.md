@@ -1,3 +1,34 @@
+# This is experimental
+
+As a new user & developer of Statamic & Laravel as a whole I had set out to dive into something alien to me. If you are building a Statamic with Inertia to render Svelte on the front-end, you will be able to drop in this component to get the benefits of the Alt Seo addon. I have built this as a proof of concept and a way to gain experience with Laravel, I would advise against anyone implementing this.
+
+## Overview / Currently Ported
+
+- Drop in `<AltSeo />` component for Inertia w/ Svelte
+- Title & Descriptions currently pulled through
+- No further Inertia setup required
+
+## How to implement currently (Again please don't try this. It is a proof of concept)
+
+- Once you have Laravel, Statamic & Alt SEO Addon, Inertia & Svelte installed you can replace the alt-seo folder in vendor -> alt-design
+- You can then import the component `<AltSeo />` into your .svelte files
+- An example within a layout component file:
+
+```
+<script>
+    import AltSeo from "../../../vendor/alt-design/alt-seo/resources/js/Pages/AltSeo.svelte";
+    import "../../css/site.css";
+    import "iconify-icon";
+</script>
+
+<AltSeo />
+
+<main class="relative overflow-hidden p-3 md:p-5">
+    <slot />
+</main>
+
+```
+
 # Alt SEO
 
 > Easy SEO for your Statamic sites
