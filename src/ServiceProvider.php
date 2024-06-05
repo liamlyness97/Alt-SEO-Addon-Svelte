@@ -38,7 +38,7 @@ class ServiceProvider extends AddonServiceProvider
      * @var string[] - Register our routes (mainly for settings tbh).
      */
     protected $routes = [
-        'cp' => __DIR__.'/../routes/cp.php',
+        'cp' => __DIR__ . '/../routes/cp.php',
     ];
 
     /**
@@ -63,7 +63,7 @@ class ServiceProvider extends AddonServiceProvider
     public function registerPermissions()
     {
         Permission::register('view alt-seo')
-                  ->label('View Alt SEO Settings');
+            ->label('View Alt SEO Settings');
     }
 
     /**
@@ -86,8 +86,9 @@ class ServiceProvider extends AddonServiceProvider
         $this->addToNav();
         $this->registerPermissions();
         $this->registerEvents();
+        $this->loadRoutesFrom(__DIR__ . '/../routes/web.php');
+        $this->publishes([
+            __DIR__ . '/../resources/js' => resource_path('js'),
+        ], 'alt-seo');
     }
-
 }
-
-

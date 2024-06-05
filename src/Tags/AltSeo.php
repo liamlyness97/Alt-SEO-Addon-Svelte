@@ -8,6 +8,8 @@ use Statamic\Tags\Tags;
 use AltDesign\AltSeo\Helpers\Data;
 use Statamic\View\Antlers\AntlersString;
 
+use Inertia\Inertia;
+
 /**
  * Class AltSeo
  *
@@ -62,10 +64,11 @@ class AltSeo extends Tags
         $returnArray[] = '<meta property="twitter:url" content="' . $this->getCanonical() . '">';
         $returnArray[] = '<meta name="twitter:title" content="' . $this->getSocialTitle() . '">';
         $returnArray[] = '<meta name="twitter:description" content="' . strip_tags($this->getSocialDescription()) . '">';
-        $returnArray[] = '<meta property="twitter:image" content="' . $this->getSocialImage() .'">';
+        $returnArray[] = '<meta property="twitter:image" content="' . $this->getSocialImage() . '">';
 
         return implode(PHP_EOL, $returnArray);
     }
+
 
     /**
      * Replace the variables in the string.
@@ -73,7 +76,8 @@ class AltSeo extends Tags
      * @param $string
      * @return array|string|string[]
      */
-    public function replaceVars($string){
+    public function replaceVars($string)
+    {
         $blueprintPageTitle = $this->context->value('title'); // Page Title
         $appName = $this->context->value('config.app.name'); // App Name
         $string = str_replace('{title}', $blueprintPageTitle, $string);
@@ -88,12 +92,12 @@ class AltSeo extends Tags
      */
     public function getTitle()
     {
-        if(!empty($this->context->value('alt_seo_meta_title'))) {
+        if (!empty($this->context->value('alt_seo_meta_title'))) {
             return $this->replaceVars($this->context->value('alt_seo_meta_title'));
         }
 
         $data = new Data('settings');
-        if($data->get('alt_seo_meta_title_default')) {
+        if ($data->get('alt_seo_meta_title_default')) {
             $title = $data->get('alt_seo_meta_title_default');
             return $this->replaceVars($title);
         }
@@ -108,12 +112,12 @@ class AltSeo extends Tags
      */
     public function getDescription()
     {
-        if(!empty($this->context->value('alt_seo_meta_description'))) {
+        if (!empty($this->context->value('alt_seo_meta_description'))) {
             return Antlers::parse($this->replaceVars($this->context->value('alt_seo_meta_description')));
         }
 
         $data = new Data('settings');
-        if($data->get('alt_seo_meta_description_default')) {
+        if ($data->get('alt_seo_meta_description_default')) {
             $description = $data->get('alt_seo_meta_description_default');
             $description = $this->replaceVars($description);
             return Antlers::parse($description);
@@ -129,7 +133,7 @@ class AltSeo extends Tags
      */
     public function getCanonical()
     {
-        if(!empty($this->context->value('alt_seo_canonical_url'))) {
+        if (!empty($this->context->value('alt_seo_canonical_url'))) {
             return Antlers::parse($this->replaceVars($this->context->value('alt_seo_canonical_url')));
         }
 
@@ -144,12 +148,12 @@ class AltSeo extends Tags
      */
     public function getSocialTitle()
     {
-        if(!empty($this->context->value('alt_seo_social_title'))) {
+        if (!empty($this->context->value('alt_seo_social_title'))) {
             return $this->replaceVars($this->context->value('alt_seo_social_title'));
         }
 
         $data = new Data('settings');
-        if($data->get('alt_seo_social_title_default')) {
+        if ($data->get('alt_seo_social_title_default')) {
             $title = $data->get('alt_seo_social_title_default');
             return $this->replaceVars($title);
         }
@@ -167,11 +171,11 @@ class AltSeo extends Tags
 
         $socialDescription = '';
 
-        if(!empty($this->context->value('alt_seo_social_description'))) {
+        if (!empty($this->context->value('alt_seo_social_description'))) {
             $socialDescription = Antlers::parse($this->replaceVars($this->context->value('alt_seo_social_description')));
         } else {
             $data = new Data('settings');
-            if($data->get('alt_seo_social_description_default')) {
+            if ($data->get('alt_seo_social_description_default')) {
                 $description = $data->get('alt_seo_social_description_default');
                 $description = $this->replaceVars($description);
                 $description = Antlers::parse($description);
@@ -197,17 +201,17 @@ class AltSeo extends Tags
     public function getSocialImage()
     {
         $imageURL = '';
-        if(!empty($this->context->value('alt_seo_social_image'))) {
+        if (!empty($this->context->value('alt_seo_social_image'))) {
             $imageURL =  str_replace('/assets/', '', Antlers::parse($this->context->value('alt_seo_social_image')));
         } else {
             $data = new Data('settings');
-            if($data->get('alt_seo_social_image_default')) {
+            if ($data->get('alt_seo_social_image_default')) {
                 $image = $data->get('alt_seo_social_image_default');
                 $imageURL = str_replace('/assets/', '', $image);
             }
         }
 
-        if(!empty($imageURL)) {
+        if (!empty($imageURL)) {
             $imageURL = ENV('APP_URL') . '/assets/' . $imageURL;
         }
         return $imageURL;

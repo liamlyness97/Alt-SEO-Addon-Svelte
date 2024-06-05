@@ -1,7 +1,11 @@
-<?php namespace AltDesign\AltSeo\Http\Controllers;
+<?php
+
+namespace AltDesign\AltSeo\Http\Controllers;
 
 use Illuminate\Http\Request;
 use AltDesign\AltSeo\Helpers\Data;
+use AltDesign\AltSeo\Tags\AltSeo;
+
 
 /**
  * Class AltController
@@ -11,7 +15,8 @@ use AltDesign\AltSeo\Helpers\Data;
  * @license  Copyright (C) Alt Design Limited - All Rights Reserved - licensed under the MIT license
  * @link     https://alt-design.net
  */
-class AltController {
+class AltController
+{
 
     /**
      *  Render the default options page.
@@ -27,6 +32,19 @@ class AltController {
             'blueprint' => $blueprint->toPublishArray(),
             'values'    => $fields->values(),
             'meta'      => $fields->meta(),
+        ]);
+    }
+
+    public function svelte()
+    {
+        $data = new Data('settings');
+        $seo = new AltSeo();
+
+        $blueprint = $data->getBlueprint(true);
+        $fields = $blueprint->fields()->addValues($data->all())->preProcess();
+
+        return response()->json([
+            'values'    => $fields->values(),
         ]);
     }
 
@@ -50,5 +68,4 @@ class AltController {
 
         return true;
     }
-
 }
